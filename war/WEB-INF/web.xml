@@ -13,4 +13,14 @@
         <servlet-name>com.mySampleApplication.MySampleApplication MySampleApplicationService</servlet-name>
         <url-pattern>/MySampleApplication/MySampleApplicationService</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>com.mySampleApplication.MySampleApplication MySampleApplicationService2</servlet-name>
+        <servlet-class>com.mySampleApplication.server2.MySampleApplicationService2Impl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>com.mySampleApplication.MySampleApplication MySampleApplicationService2</servlet-name>
+        <url-pattern>/MySampleApplication/MySampleApplicationService2</url-pattern>
+    </servlet-mapping>
+
 </web-app>
