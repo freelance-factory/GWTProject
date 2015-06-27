@@ -7,6 +7,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+import java.util.ArrayList;
 
 
 /**
@@ -22,7 +25,8 @@ public class MySampleApplication implements EntryPoint {
         final Button button1 = new Button("Clickeame si querés un mensaje del Servidor");
         final Label label = new Label();
         final Label label1 = new Label();
-//        final VerticalPanel panel = new VerticalPanel();
+        final VerticalPanel panel = new VerticalPanel();
+        final ArrayList listy = new ArrayList();
 //        final CellList cellList = new CellList<>;
 
         button.addClickHandler(new ClickHandler() {
@@ -40,11 +44,12 @@ public class MySampleApplication implements EntryPoint {
 
         button1.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                if (label.getText().equals("")) {
-                    MySampleApplicationService2.App.getInstance().getMessage2("¡Hola, mundo!", new MyAsyncCallback2(label));
-                } else {
-                    label.setText("");
-                }
+//                if (label.getText().equals("")) {
+//                    MySampleApplicationService2.App.getInstance().getMessage2("¡Hola, mundo!", new MyAsyncCallback2(label));
+//                } else {
+//                    label.setText("");
+//                }
+                MySampleApplicationService2.App.getInstance().getCellList(listy, new MyAsyncCallback2(listy));
             }
         });
 
@@ -58,7 +63,7 @@ public class MySampleApplication implements EntryPoint {
         RootPanel.get("slot1").add(button);
         RootPanel.get("slot2").add(label);
         RootPanel.get("slot3").add(button1);
-        RootPanel.get("slot4").add(label1);
+        RootPanel.get("slot4").add(panel);
     }
 
     private static class MyAsyncCallback implements AsyncCallback<String> {
@@ -78,18 +83,18 @@ public class MySampleApplication implements EntryPoint {
     }
 
     private static class MyAsyncCallback2 implements AsyncCallback<String> {
-        private Label label;
+        private ArrayList listy;
 
-        public MyAsyncCallback2(Label label) {
-            this.label = label;
+        public MyAsyncCallback2(ArrayList listy) {
+            this.listy = listy;
         }
 
-        public void onSuccess(String result) {
+        public void onSuccess(ArrayList result) {
             label.getElement().setInnerHTML(result);
         }
 
         public void onFailure(Throwable throwable) {
-            label.setText("¡Falló la recepción de respuesta del Servidor!");
+            System.out.println("¡Falló la recepción de respuesta del Servidor!");
         }
     }
 }

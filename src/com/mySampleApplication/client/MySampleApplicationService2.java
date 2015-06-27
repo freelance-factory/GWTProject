@@ -1,6 +1,7 @@
 package com.mySampleApplication.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -9,7 +10,8 @@ import java.util.ArrayList;
 @RemoteServiceRelativePath("MySampleApplicationService2")
 public interface MySampleApplicationService2 extends RemoteService {
     // Sample interface method of remote interface
-    String getMessage2(String msg);
+//    String getMessage2(String msg);
+    ArrayList getCellList(ArrayList cl);
 
     /**
      * Utility/Convenience class.
