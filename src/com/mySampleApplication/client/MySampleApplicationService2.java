@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public interface MySampleApplicationService2 extends RemoteService {
     // Sample interface method of remote interface
 //    String getMessage2(String msg);
-    ArrayList getCellList(ArrayList cl);
+    ArrayList getCellList();
 
     /**
      * Utility/Convenience class.
