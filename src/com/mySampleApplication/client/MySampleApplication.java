@@ -1,14 +1,16 @@
 package com.mySampleApplication.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-
-import java.util.ArrayList;
 
 
 /**
@@ -24,7 +26,7 @@ public class MySampleApplication implements EntryPoint {
         final Button button1 = new Button("Click me if you want to pick the car of your dreams.");
         final Label label = new Label();
         final Label label1 = new Label();
-        final ArrayList listy = new ArrayList();
+        final FlexTable flexTable = new FlexTable();
 //        final CellList cellList = new CellList<>;
 //        final VerticalPanel panel = new VerticalPanel();
 
@@ -48,7 +50,16 @@ public class MySampleApplication implements EntryPoint {
 //                } else {
 //                    label.setText("");
 //                }
-                MySampleApplicationService2.App.getInstance().getCellList(new MyAsyncCallback2(listy));
+                MySampleApplicationService2.App.getInstance().getList(new AsyncCallback<ArrayList>() {
+                    @Override
+                    public void onSuccess(ArrayList result) {
+                        initTable(result);
+                    }
+                    @Override
+                    public void onFailure(Throwable caught) {
+
+                    }
+                });
             }
         });
 
@@ -62,8 +73,23 @@ public class MySampleApplication implements EntryPoint {
         RootPanel.get("slot1").add(button);
         RootPanel.get("slot2").add(label);
         RootPanel.get("slot3").add(button1);
-        RootPanel.get("slot4").add(label1);
     }
+
+    private void initTable(ArrayList result) {
+        FlexTable a = new FlexTable();
+        FlexTable.FlexCellFormatter cellFormatter = a.getFlexCellFormatter();
+        a.setWidth("32em");
+        a.setCellPadding(3);
+        a.setCellSpacing(5);
+        cellFormatter.setHorizontalAlignment(0,0, HasHorizontalAlignment.ALIGN_CENTER);
+        a.setHTML(0,0, String.valueOf(result.get(0)));
+        cellFormatter.setHorizontalAlignment(1,0, HasHorizontalAlignment.ALIGN_CENTER);
+        a.setHTML(1,0, String.valueOf(result.get(1)));
+        cellFormatter.setHorizontalAlignment(2,0, HasHorizontalAlignment.ALIGN_CENTER);
+        a.setHTML(2,0, String.valueOf(result.get(2)));
+        RootPanel.get("slot4").add(a);
+    }
+
 
     private static class MyAsyncCallback implements AsyncCallback<String> {
         private Label label;
@@ -78,22 +104,6 @@ public class MySampleApplication implements EntryPoint {
 
         public void onFailure(Throwable throwable) {
             label.setText("Failed to receive answer from server!");
-        }
-    }
-
-    private static class MyAsyncCallback2 implements AsyncCallback<String> {
-        private Label label1;
-
-        public MyAsyncCallback2(Label label1) {
-            this.label1 = label1;
-        }
-
-        public void onSuccess(String result) {
-            label1.getElement().setInnerHTML(result);
-        }
-
-        public void onFailure(Throwable throwable) {
-            label1.setText("Failed to receive answer from server!");
         }
     }
 }

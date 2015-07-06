@@ -1,9 +1,9 @@
 package com.mySampleApplication.server;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.mySampleApplication.client.MySampleApplicationService2;
-
-import java.util.ArrayList;
 
 
 public class MySampleApplicationService2Impl extends RemoteServiceServlet implements MySampleApplicationService2 {
@@ -11,7 +11,7 @@ public class MySampleApplicationService2Impl extends RemoteServiceServlet implem
 //    public String getMessage2(String msg) {
 //        return "El Cliente dijo \"" + msg + "\"<br>El Servidor respondió \"¡Hola!\"";
 //    }
-    public ArrayList getCellList() {
+    public ArrayList getList() {
         ArrayList al = new ArrayList();
         al.add("Lamborghini Gallardo");
         al.add("Ferrari F455 Spider");
