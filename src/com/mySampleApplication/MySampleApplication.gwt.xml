@@ -12,5 +12,6 @@
     <!-- Specify the app servlets.                   -->
     <servlet path='/MySampleApplicationService' class='com.mySampleApplication.server.MySampleApplicationServiceImpl'/>
     <servlet path="/MySampleApplicationService2" class="com.mySampleApplication.server.MySampleApplicationService2Impl"/>
+    <servlet path="/MySampleApplicationService3" class="com.mySampleApplication.server.MySampleApplicationService3Impl"/>
 
 </module>

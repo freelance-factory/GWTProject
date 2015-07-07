@@ -3,14 +3,17 @@ package com.mySampleApplication.client;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 
 /**
@@ -25,11 +28,11 @@ public class MySampleApplication implements EntryPoint {
     public void onModuleLoad() {
         final Button button = new Button("Click me if you want a message from the Server");
         final Button button1 = new Button("Click me if you want to pick the car of your dreams.");
+        final Button button2 = new Button("Click me if you want to see a picture of a puppy.");
         final Label label = new Label();
-        final Label label1 = new Label();
+        final Image image = new Image("error");
+        final VerticalPanel panel = new VerticalPanel();
 
-//        final CellList cellList = new CellList<>;
-//        final VerticalPanel panel = new VerticalPanel();
 
         button.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
@@ -52,7 +55,8 @@ public class MySampleApplication implements EntryPoint {
 //                    label.setText("");
 //                }
                 if (a.getRowCount() > 0) {
-                    a.clear(true);
+                    a.clear();
+                    a.removeAllRows();
                 } else {
                     MySampleApplicationService2.App.getInstance().getList(new AsyncCallback<ArrayList>() {
                         @Override
@@ -69,16 +73,44 @@ public class MySampleApplication implements EntryPoint {
             }
         });
 
+        button2.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                GWT.log(image.getUrl());
+                if (image.getUrl().contains("error")) {
+                    MySampleApplicationService3.App.getInstance().getImageURL(new AsyncCallback<String>() {
+                        @Override
+                        public void onSuccess(String result) {
+//                            Window.alert(result);
+                            image.setUrl(result);
+                            panel.add(image);
+                        }
+
+                        @Override
+                        public void onFailure(Throwable caught) {
+
+                        }
+                    });
+
+                } else {
+                    image.setUrl("error");
+                    panel.clear();
+                }
+            }
+        });
+
+
         // Assume that the host HTML has elements defined whose
         // IDs are "slot1", "slot2".  In a real app, you probably would not want
         // to hard-code IDs.  Instead, you could, for example, search for all
         // elements with a particular CSS class and replace them with widgets.
         //
 
-
         RootPanel.get("slot1").add(button);
         RootPanel.get("slot2").add(label);
         RootPanel.get("slot3").add(button1);
+        RootPanel.get("slot5").add(button2);
+        RootPanel.get("slot6").add(panel);
     }
 
     private void initTable(ArrayList result) {
@@ -87,14 +119,13 @@ public class MySampleApplication implements EntryPoint {
         a.setCellPadding(3);
         a.setCellSpacing(5);
         cellFormatter.setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
-        a.setHTML(0, 0, String.valueOf(result.get(0)));
+        a.setWidget(0, 0, new Label(String.valueOf(result.get(0))));
         cellFormatter.setHorizontalAlignment(1, 0, HasHorizontalAlignment.ALIGN_CENTER);
-        a.setHTML(1, 0, String.valueOf(result.get(1)));
+        a.setWidget(1, 0, new Label(String.valueOf(result.get(1))));
         cellFormatter.setHorizontalAlignment(2, 0, HasHorizontalAlignment.ALIGN_CENTER);
-        a.setHTML(2, 0, String.valueOf(result.get(2)));
+        a.setWidget(2, 0, new Label(String.valueOf(result.get(2))));
         RootPanel.get("slot4").add(a);
     }
-
 
     private static class MyAsyncCallback implements AsyncCallback<String> {
         private Label label;
